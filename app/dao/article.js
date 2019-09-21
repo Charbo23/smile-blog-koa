@@ -368,14 +368,21 @@ class ArticleDao {
         [Op.or]: [
           {
             title: {
-              [Op.like]: `${search}%`,
+              [Op.like]: `%${search}%`,
             }
           },
           {
             content: {
-              [Op.like]: `${search}%`,
+              [Op.like]: `%${search}%`,
             }
-          }
+          },
+          // 包括文章描述
+          // {
+          //   description: {
+          //     [Op.like]: `%${search}%`,
+          //   }
+          // }
+          
         ]
       },
       order: [

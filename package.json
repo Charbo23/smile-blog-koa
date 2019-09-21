@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smileShirmy/smile-blog-koa.git"
+    "url": "git+https://github.com/Charbo23/smile-blog-koa.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/smileShirmy/smile-blog-koa/issues"
+    "url": "https://github.com/Charbo23/smile-blog-koa/issues"
   },
-  "homepage": "https://github.com/smileShirmy/smile-blog-koa#readme",
+  "homepage": "https://github.com/Charbo23/smile-blog-koa",
   "dependencies": {
     "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
