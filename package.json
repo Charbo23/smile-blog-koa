@@ -44,5 +44,8 @@
     "@dao": "app/dao",
     "@validator": "app/validators",
     "@exception": "core/http-exception"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
