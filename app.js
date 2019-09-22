@@ -21,8 +21,9 @@ const app = new Koa()
 
 // 加载leancloud中间件
 app.use(AV.koa2());
-app.use(AV.Cloud.HttpsRedirect());
-app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser: true }));
+app.proxy = true;
+app.use(AV.Cloud.HttpsRedirect({framework: 'koa2'}));
+app.use(AV.Cloud.CookieSession({framework: 'koa2', secret: 'my secret', maxAge: 3600000, fetchUser: true }));
 
 app.use(cors())
 app.use(catchError)
