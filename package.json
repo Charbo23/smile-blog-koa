@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon",
-    "start:dev": "nodemon --inspect-brk",
-    "start:prod": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon",
+    "dev:inspect": "nodemon --inspect-brk"
   },
   "repository": {
     "type": "git",
