@@ -11,6 +11,8 @@ const {
   timezone
 } = require('../config/config').database
 
+console.log(`connecting to database at ${host}:${port}`);
+
 const sequelize = new Sequelize(dbName, user, password, {
   dialect: 'mysql',
   host,
@@ -51,7 +53,7 @@ Model.prototype.toJSON = function () {
   unset(data, 'updated_at')
   unset(data, 'created_at')
   unset(data, 'deleted_at')
-  
+
   if (isArray(this.exclude)) {
     this.exclude.forEach(value => {
       unset(data, value)
