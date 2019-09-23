@@ -11,7 +11,7 @@ const {
   timezone
 } = require('../config/config').database
 
-console.log(`connecting to database at ${host}:${port}`);
+console.log(`connecting database at ${host}:${port}`);
 
 const sequelize = new Sequelize(dbName, user, password, {
   dialect: 'mysql',
