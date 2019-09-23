@@ -2,7 +2,7 @@ module.exports = {
   environment: 'dev',
   database: {
     dbName: 'smile_blog',
-    host: '47.100.162.132',
+    host: process.env.NODE_ENV === 'production' ? '47.100.162.132' : 'localhost',
     port: 3306,
     user: 'root',
     password: '123456',
