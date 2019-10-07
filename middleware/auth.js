@@ -28,7 +28,7 @@ async function parseHeader(ctx, type = TokenType.ACCESS) {
         if (error.name === 'TokenExpiredError') {
           throw new ExpiredToken({ msg: '认证失败，token已过期' })
         } else {
-          throw new InvalidToken({ msg: '认证失败，令牌失效'})
+          throw new InvalidToken({ msg: '认证失败，令牌失效' })
         }
       }
 
@@ -68,11 +68,11 @@ async function parseHeader(ctx, type = TokenType.ACCESS) {
 const generateToken = function (uid, scope, type = TokenType.ACCESS, options) {
   const secretKey = global.config.security.secretKey
   const token = jwt.sign({
-      uid,
-      scope,
-      type
+    uid,
+    scope,
+    type
   }, secretKey, {
-      expiresIn: options.expiresIn
+    expiresIn: options.expiresIn
   })
   return token
 }

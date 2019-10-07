@@ -1,55 +1,100 @@
 const qiniu = require('qiniu')
-
+const axios = require('axios')
+const FormData = require('form-data');
+const fs = require('fs');
 class UpLoader {
   constructor(prefix) {
     this.prefix = prefix || ''
   }
 
+  // async upload(files) {
+  //   // 上传凭证
+  //   const accessKey = global.config.qiniu.accessKey
+  //   const secretKey = global.config.qiniu.secretKey
+  //   const bucket = global.config.qiniu.bucket
+  //   const siteDomain = global.config.qiniu.siteDomain
+
+  //   let promises = []
+
+  //   for (const file of files) {
+  //     const key = this.prefix + file.filename
+  //     // 文件覆盖
+  //     const putPolicy = new qiniu.rs.PutPolicy({
+  //       scope: `${bucket}:${key}`
+  //     })
+  //     const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+  //     const uploadToken = putPolicy.uploadToken(mac)
+
+  //     // ReadableStream 对象的上传
+  //     const config = new qiniu.conf.Config()
+  //     config.zone = qiniu.zone.Zone_z2
+  //     config.useHttpsDomain = true
+
+  //     const formUploader = new qiniu.form_up.FormUploader(config)
+  //     const putExtra = new qiniu.form_up.PutExtra()
+  //     const readableStream = file
+
+  //     const promise = new Promise((resolve, reject) => {
+  //       formUploader.putStream(uploadToken, key, readableStream, putExtra, (respErr, respBody, respInfo) => {
+  //         if (respErr) {
+  //           reject(respErr)
+  //         }
+
+  //         if (respInfo.statusCode === 200) {
+  //           const url = siteDomain + respBody.key
+  //           resolve(url)
+  //         } else {
+  //           // 614 文件已存在
+  //           reject(respInfo)
+  //         }
+  //       })
+  //     })
+  //     promises.push(promise)
+  //   }
+
+  //   try {
+  //     return Promise.all(promises)
+  //   } catch (error) {
+  //     throw new Error('文件上传失败')
+  //   }
+  // }
   async upload(files) {
     // 上传凭证
-    const accessKey = global.config.qiniu.accessKey
-    const secretKey = global.config.qiniu.secretKey
-    const bucket = global.config.qiniu.bucket
-    const siteDomain = global.config.qiniu.siteDomain
+    const AUTH_TOKEN = 'EZdNGdpoofR34iLFtI6IleRfuU7tpM6A';
+    axios.defaults.baseURL = 'https://sm.ms/api/v2';
+    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-    let promises = []
-
-    for (const file of files) {
-      const key = this.prefix + file.filename
-      // 文件覆盖
-      const putPolicy = new qiniu.rs.PutPolicy({
-        scope: `${bucket}:${key}`
-      })
-      const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
-      const uploadToken = putPolicy.uploadToken(mac)
-
-      // ReadableStream 对象的上传
-      const config = new qiniu.conf.Config()
-      config.zone = qiniu.zone.Zone_z2
-      config.useHttpsDomain = true
-
-      const formUploader = new qiniu.form_up.FormUploader(config)
-      const putExtra = new qiniu.form_up.PutExtra()
-      const readableStream = file
+    let promises = [];
+    let fileId = 0;
+    //记得删除临时图片
+    Object.keys(files).forEach((key) => {
+      const file = files[key];
+      let formData = new FormData();
+      formData.append('smfile', fs.createReadStream(file.path));
+      formData.append('file_id', fileId++);
 
       const promise = new Promise((resolve, reject) => {
-        formUploader.putStream(uploadToken, key, readableStream, putExtra, (respErr, respBody, respInfo) => {
-          if (respErr) {
-            reject(respErr)
-          }
-  
-          if (respInfo.statusCode === 200) {
-            const url = siteDomain + respBody.key
-            resolve(url)
-          } else {
-            // 614 文件已存在
-            reject(respInfo)
-          }
+        axios({
+          method: 'post',
+          url: '/upload',
+          headers: formData.getHeaders(),
+          data: formData
         })
+          .then((res) => {
+            if (res.data.success) {
+              resolve(res.data.data.url);
+            } else {
+              reject(res.data.message);
+            }
+            deleteFile(file.path);
+          })
+          .catch((error) => {
+            reject(error);
+            deleteFile(file.path);
+          })
       })
       promises.push(promise)
-    }
-
+    });
     try {
       return Promise.all(promises)
     } catch (error) {
@@ -57,7 +102,15 @@ class UpLoader {
     }
   }
 }
+const deleteFile = (path) => {
+  fs.unlink(path, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
 
+    }
+  });
+}
 module.exports = {
   UpLoader
 }
