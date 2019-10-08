@@ -290,12 +290,12 @@ class ArticleDao {
       [Op.or]: [
         {
           title: {
-            [Op.like]: `${search}%`,
+            [Op.like]: `%${search}%`,
           }
         },
         {
           content: {
-            [Op.like]: `${search}%`,
+            [Op.like]: `%${search}%`,
           }
         }
       ]
