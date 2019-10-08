@@ -58,46 +58,48 @@ class UpLoader {
   //     throw new Error('文件上传失败')
   //   }
   // }
-  async upload(files) {
+  async upload(files,file_id) {
     // 上传凭证
     const AUTH_TOKEN = 'EZdNGdpoofR34iLFtI6IleRfuU7tpM6A';
     axios.defaults.baseURL = 'https://sm.ms/api/v2';
     axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
     let promises = [];
-    let fileId = 0;
-    //记得删除临时图片
-    Object.keys(files).forEach((key) => {
-      const file = files[key];
-      let formData = new FormData();
-      formData.append('smfile', fs.createReadStream(file.path));
-      formData.append('file_id', fileId++);
-
-      const promise = new Promise((resolve, reject) => {
-        axios({
-          method: 'post',
-          url: '/upload',
-          headers: formData.getHeaders(),
-          data: formData
-        })
-          .then((res) => {
-            if (res.data.success) {
-              resolve(res.data.data.url);
-            } else {
-              reject(res.data.message);
-            }
-            deleteFile(file.path);
-          })
-          .catch((error) => {
-            reject(error);
-            deleteFile(file.path);
-          })
-      })
-      promises.push(promise)
-    });
     try {
+      Object.keys(files).forEach((key) => {
+        const file = files[key];
+        let formData = new FormData();
+        //重命名文件为原文件名
+        const newPath = `${file.path.substring(0,file.path.lastIndexOf('\\'))}\\${file.originalFilename}`;
+        fs.renameSync(file.path,newPath);
+        formData.append('smfile', fs.createReadStream(newPath));
+        formData.append('file_id', file_id || 0);
+
+        const promise = new Promise((resolve, reject) => {
+          axios({
+            method: 'post',
+            url: '/upload',
+            headers: formData.getHeaders(),
+            data: formData
+          })
+            .then((res) => {
+              if (res.data.success) {
+                resolve(res.data.data.url);
+              } else {
+                reject(res.data.message);
+              }
+              deleteFile(file.path);
+            })
+            .catch((error) => {
+              reject(error);
+              deleteFile(file.path);
+            })
+        })
+        promises.push(promise)
+      });
+
       return Promise.all(promises)
     } catch (error) {
+      console.log(error);
       throw new Error('文件上传失败')
     }
   }
