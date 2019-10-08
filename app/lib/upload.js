@@ -58,7 +58,7 @@ class UpLoader {
   //     throw new Error('文件上传失败')
   //   }
   // }
-  async upload(files,file_id) {
+  async upload(files, file_id) {
     // 上传凭证
     const AUTH_TOKEN = 'EZdNGdpoofR34iLFtI6IleRfuU7tpM6A';
     axios.defaults.baseURL = 'https://sm.ms/api/v2';
@@ -68,10 +68,10 @@ class UpLoader {
       Object.keys(files).forEach((key) => {
         const file = files[key];
         let formData = new FormData();
-        //重命名文件为原文件名
-        const newPath = `${file.path.substring(0,file.path.lastIndexOf('\\'))}\\${file.originalFilename}`;
-        fs.renameSync(file.path,newPath);
-        formData.append('smfile', fs.createReadStream(newPath));
+        //重命名文件为源文件名
+        const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${file.originalFilename}`;
+        fs.renameSync(file.path, filePath);
+        formData.append('smfile', fs.createReadStream(filePath));
         formData.append('file_id', file_id || 0);
 
         const promise = new Promise((resolve, reject) => {
@@ -82,16 +82,20 @@ class UpLoader {
             data: formData
           })
             .then((res) => {
+              const msg = res.data.message;
               if (res.data.success) {
                 resolve(res.data.data.url);
+              } else if (msg.indexOf('repeated') !== -1) {
+                //如果重复则返回存在图片的地址
+                resolve(msg.substring(msg.indexOf('http')));
               } else {
-                reject(res.data.message);
+                reject(msg);
               }
-              deleteFile(file.path);
+              deleteFile(filePath);
             })
             .catch((error) => {
               reject(error);
-              deleteFile(file.path);
+              deleteFile(filePath);
             })
         })
         promises.push(promise)
