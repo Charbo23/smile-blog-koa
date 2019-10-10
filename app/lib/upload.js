@@ -68,10 +68,7 @@ class UpLoader {
       Object.keys(files).forEach((key) => {
         const file = files[key];
         let formData = new FormData();
-        //重命名文件为源文件名
-        const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${file.originalFilename}`;
-        fs.renameSync(file.path, filePath);
-        formData.append('smfile', fs.createReadStream(filePath));
+        formData.append('smfile', fs.createReadStream(file.path));
         formData.append('file_id', file_id || 0);
 
         const promise = new Promise((resolve, reject) => {
@@ -91,14 +88,16 @@ class UpLoader {
               } else {
                 reject(msg);
               }
-              deleteFile(filePath);
+              deleteFile(file.path);
             })
             .catch((error) => {
               reject(error);
-              deleteFile(filePath);
+              deleteFile(file.path);
             })
         })
         promises.push(promise)
+
+
       });
 
       return Promise.all(promises)
