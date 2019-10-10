@@ -96,10 +96,7 @@ class UpLoader {
             })
         })
         promises.push(promise)
-
-
       });
-
       return Promise.all(promises)
     } catch (error) {
       console.log(error);

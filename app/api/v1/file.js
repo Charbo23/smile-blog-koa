@@ -35,10 +35,9 @@ const renameFile = (files) => {
     Object.keys(files).forEach((key) => {
       const file = files[key];
       //重命名文件为源文件名
-      // const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${file.originalFilename}`;
-
       fileNameArr = file.originalFilename.split('.');
-      const filePath = `./temp/${fileNameArr[0]}_${shortid.generate()}.${fileNameArr[1]}`;
+      const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${fileNameArr[0]}_${shortid.generate()}.${fileNameArr[1]}`;
+      // const filePath = `./temp/${fileNameArr[0]}_${shortid.generate()}.${fileNameArr[1]}`;
       // console.log(file);
       const readStream = fs.createReadStream(file.path);
       const writeStream = fs.createWriteStream(filePath);
