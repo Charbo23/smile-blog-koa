@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=production node app.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "dev:inspect": "cross-env NODE_ENV=development nodemon --inspect-brk",
-    "dev:remote": "cross-env NODE_ENV=development DATABASE=remote nodemon"
+    "dev:remote": "cross-env NODE_ENV=development DATABASE=remote nodemon",
+    "push": "git push heroku master"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,6 @@
   },
   "engines": {
     "node": "10.x",
-    "yarn":"1.x"
+    "yarn": "1.x"
   }
 }
