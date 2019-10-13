@@ -78,10 +78,12 @@ class UpLoader {
         const promise = new Promise((resolve, reject) => {
           ufile.put({ file_path, file_prefix, filename, unique: parseInt(Date.now() / 1000) })
             .then((res) => {
-              resolve(res)
+              resolve(res);
+              deleteFile(file_path);
             })
             .catch((error) => {
-              reject(error)
+              reject(error);
+              deleteFile(file_path);
             })
         })
         promises.push(promise)
