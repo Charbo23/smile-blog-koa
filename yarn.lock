@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@charbo/ufile@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@charbo/ufile/-/ufile-1.1.1.tgz#76b1af01867f0938731c3897525e63c0a327b25d"
-  integrity sha512-E4E0XJigpu0UhfjQbhczH3qXCzeQ8xw/cO5QMymj0MpNYhwfqHcEutN58qhWURFiN3M+mMz1/Qg4tLTVzHk2Mw==
+"@charbo/ufile@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@charbo/ufile/-/ufile-1.1.2.tgz#dfada2c61391d1a3520b2089358e7366f71721d3"
+  integrity sha512-zVN5Qb86Xu+GFc9R8SJtWYnqhoX1tnOUtEhWpcDM6CVrXxTXU2FSTtcKLuOZO7XwmefcdHRDnWLhHrC2EGL9NA==
   dependencies:
     best-require "^1.1.4"
     mime "^2.4.4"
