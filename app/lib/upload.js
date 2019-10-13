@@ -76,7 +76,7 @@ class UpLoader {
         const filename = file.originalFilename;
         const file_prefix = 'smile-blog';
         const promise = new Promise((resolve, reject) => {
-          ufile.put({ file_path, file_prefix, filename, unique: true })
+          ufile.put({ file_path, file_prefix, filename, unique: parseInt(Date.now() / 1000) })
             .then((res) => {
               resolve(res)
             })

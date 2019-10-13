@@ -26,7 +26,7 @@ fileApi.post('/', multiparty(), async (ctx) => {
   const arr = await upLoader.upload(files, ctx.req.body.file_id);
   // console.log(arr);
   // 此处将返回Url数组，因为有await关键字，相当于调用then
-  ctx.body = arr
+  ctx.body = arr;
 })
 const renameFile = (files) => {
   let renamePromises = []
