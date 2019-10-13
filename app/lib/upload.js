@@ -2,6 +2,9 @@ const qiniu = require('qiniu')
 const axios = require('axios')
 const FormData = require('form-data');
 const fs = require('fs');
+const UFile = require('@charbo/ufile');
+const { bucket, proxy_suffix } = require('~/ufile-config.json');
+const ufile = new UFile(bucket, proxy_suffix);
 class UpLoader {
   constructor(prefix) {
     this.prefix = prefix || ''
@@ -58,6 +61,8 @@ class UpLoader {
   //     throw new Error('文件上传失败')
   //   }
   // }
+
+
   async upload(files, file_id) {
     // 上传凭证
     const AUTH_TOKEN = 'EZdNGdpoofR34iLFtI6IleRfuU7tpM6A';
@@ -67,32 +72,16 @@ class UpLoader {
     try {
       Object.keys(files).forEach((key) => {
         const file = files[key];
-        let formData = new FormData();
-        formData.append('smfile', fs.createReadStream(file.path));
-        formData.append('file_id', file_id || 0);
-
+        const file_path = file.path;
+        const filename = file.originalFilename;
+        const file_prefix = 'smile-blog';
         const promise = new Promise((resolve, reject) => {
-          axios({
-            method: 'post',
-            url: '/upload',
-            headers: formData.getHeaders(),
-            data: formData
-          })
+          ufile.put({ file_path, file_prefix, filename, unique: true })
             .then((res) => {
-              const msg = res.data.message;
-              if (res.data.success) {
-                resolve(res.data.data.url);
-              } else if (msg.indexOf('repeated') !== -1) {
-                //如果重复则返回存在图片的地址
-                resolve(msg.substring(msg.indexOf('http')));
-              } else {
-                reject(msg);
-              }
-              deleteFile(file.path);
+              resolve(res)
             })
             .catch((error) => {
-              reject(error);
-              deleteFile(file.path);
+              reject(error)
             })
         })
         promises.push(promise)
