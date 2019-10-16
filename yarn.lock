@@ -4,8 +4,8 @@
 
 "@charbo/ufile@^1.1.3":
   version "1.1.3"
-  resolved "https://registry.npmjs.org/@charbo/ufile/-/ufile-1.1.3.tgz#b079bb4fb8cf931b5cf9d9b277be1ad98709bc09"
-  integrity sha512-TuyPBdhHFUJ25+3/+jMCRAtCHhozKV3u/7AnGMf/vRvxQ63sX/ztXHLgJp6phnWwmnegkOTlw4kDHXX9CJJWlg==
+  resolved "https://registry.npm.taobao.org/@charbo/ufile/download/@charbo/ufile-1.1.3.tgz#b079bb4fb8cf931b5cf9d9b277be1ad98709bc09"
+  integrity sha1-sHm7T7jPkxtc+dmyd74a2YcJvAk=
   dependencies:
     best-require "^1.1.4"
     mime "^2.4.4"
