@@ -1,13 +1,16 @@
 const qiniu = require('qiniu')
 const axios = require('axios')
 const FormData = require('form-data');
+const path = require('path');
 const fs = require('fs');
-const UFile = require('@charbo/ufile');
-const { bucket, proxy_suffix } = require('~/ufile-config.json');
-const ufile = new UFile(bucket, proxy_suffix);
+const UFile = require('@charbo/ufile-node-sdk');
+const config = require(path.resolve(process.cwd(), ('./ufile-config')));
+
+const ufile = new UFile(config);
+console.log(ufile);
 class UpLoader {
   constructor(prefix) {
-    this.prefix = prefix || ''
+    this.prefix = prefix || '';
   }
 
   // async upload(files) {
@@ -74,11 +77,11 @@ class UpLoader {
         const file = files[key];
         const file_path = file.path;
         const filename = file.originalFilename;
-        const file_prefix = 'smile-blog';
+        const prefix = 'smile-blog';
         const promise = new Promise((resolve, reject) => {
-          ufile.put({ file_path, file_prefix, filename, unique: parseInt(Date.now() / 1000) })
-            .then((res) => {
-              resolve(res);
+          ufile.putFile({ file_path, prefix, filename, unique: parseInt(Date.now() / 1000) })
+            .then(({ url }) => {
+              resolve(url);
               deleteFile(file_path);
             })
             .catch((error) => {
