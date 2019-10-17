@@ -1,13 +1,12 @@
 const qiniu = require('qiniu')
 const axios = require('axios')
-const FormData = require('form-data');
 const path = require('path');
 const fs = require('fs');
 const UFile = require('@charbo/ufile-node-sdk');
 const config = require(path.resolve(process.cwd(), ('./ufile-config')));
 
 const ufile = new UFile(config);
-console.log(ufile);
+
 class UpLoader {
   constructor(prefix) {
     this.prefix = prefix || '';
