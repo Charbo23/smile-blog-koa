@@ -30,12 +30,4 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
-  // 七牛相关配置
-  qiniu: {
-    accessKey: '',
-    secretKey: '',
-    bucket: '',
-    siteDomain: ''
-  },
-  host: 'http://localhost:3000'
 }
