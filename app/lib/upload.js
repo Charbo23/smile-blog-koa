@@ -11,18 +11,18 @@ class UpLoader {
     try {
       Object.keys(files).forEach((key) => {
         const file = files[key];
-        const file_path = file.path;
-        const filename = file.originalFilename;
+        const filePath = file.path;
+        const fileRename = file.originalFilename;
         const prefix = 'smile-blog';
         const promise = new Promise((resolve, reject) => {
-          ufile.putFile({ file_path, prefix, filename, unique: parseInt(Date.now() / 1000) })
+          ufile.putFile({ filePath, prefix, fileRename, unique: parseInt(Date.now() / 1000) })
             .then(({ url }) => {
               resolve(url);
-              deleteFile(file_path);
+              deleteFile(filePath);
             })
             .catch((error) => {
               reject(error);
-              deleteFile(file_path);
+              deleteFile(filePath);
             })
         })
         promises.push(promise)
