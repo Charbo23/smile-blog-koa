@@ -1,19 +1,19 @@
 ## smile-blog-koa
 
-[![Build Status](https://www.travis-ci.org/smileShirmy/smile-blog-koa.svg?branch=master)](https://www.travis-ci.org/smileShirmy/smile-blog-koa)
+Inspired by  [Shirmy](https://github.com/smileShirmy) and customized for myself
 
 - 权限控制
 - 无感知Token刷新
-- 支持七牛云文件上传
+- 支持UFile文件上传
 - HTTPS反向代理
 - Koa2 + Sequelize
 - MySQL
 
 该项目为服务端部分，其它部分可点击下面的链接
 
-- 展示前端 [smile-blog-nuxt](https://github.com/smileShirmy/smile-blog-nuxt)
-- 管理后台 [smile-blog-admin](https://github.com/smileShirmy/smile-blog-admin)
-- 服务端 [smile-blog-koa](https://github.com/smileShirmy/smile-blog-koa)
+- 展示前端 [smile-blog-nuxt](https://github.com/Charbo23/smile-blog-nuxt)
+- 管理后台 [smile-blog-admin](https://github.com/Charbo23/smile-blog-admin)
+- 服务端 [smile-blog-koa](https://github.com/Charbo23/smile-blog-koa)
 
 
 ## Setup
