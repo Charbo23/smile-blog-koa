@@ -31,7 +31,7 @@ module.exports = {
     // include:[]
   },
   ufile: {
-    publicKey: "uHBkkDR_XaZVsTDjl_aBVWur5i8vD3rzAp9V",
+    publicKey: "uHBkkj_l7DR_XaZVsTDjl_aBVWur5i8vD3rzAp9V",
     privateKey: "i7ESIZ7AXtYaHhCRT-s7ik2rj-MMxJSs1XUE3Pit2-IUzgH5PpEzb4c3hRDA5-vm",
     domain: ".hk.ufileos.com",
     bucket: "charbo",
