@@ -4,7 +4,7 @@ Inspired by  [Shirmy](https://github.com/smileShirmy) and customized for myself
 
 - 权限控制
 - 无感知Token刷新
-- 支持UFile文件上传
+- 支持UFile文件上传（同时[改进了官方SDK](https://github.com/Charbo23/ufile-node-sdk)）
 - HTTPS反向代理
 - Koa2 + Sequelize
 - MySQL
