@@ -2,10 +2,10 @@ module.exports = {
   environment: 'dev',
   database: {
     dbName: 'smile_blog',
-    host: process.env.NODE_ENV === 'production' || process.env.DATABASE === 'remote' ? '47.100.162.132' : 'localhost',
+    host: process.env.NODE_ENV === 'production' || process.env.DATABASE === 'remote' ? 'XXX' : 'localhost',
     port: 3306,
-    user: 'root',
-    password: '123456',
+    user: '',
+    password: '',
     logging: false,
     timezone: '+08:00'
   },
@@ -30,4 +30,11 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
+  ufile: {
+    publicKey: "UCloud公钥",
+    privateKey: "UCloud私钥",
+    domain: "存储所在区域域名后缀",
+    bucket: "charbo",
+    protocol: "协议 http/https"
+  }
 }

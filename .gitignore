@@ -20,3 +20,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
+ufile-config.json
+/config/config.js

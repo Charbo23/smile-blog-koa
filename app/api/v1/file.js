@@ -20,7 +20,7 @@ const fileApi = new Router({
 
 fileApi.post('/', multiparty(), async (ctx) => {
   const files = ctx.req.files;
-  const upLoader = new UpLoader(`blog/`);
+  const upLoader = new UpLoader('smile-blog');
 
   // await renameFile(files)
   const arr = await upLoader.upload(files, ctx.req.body.file_id);
