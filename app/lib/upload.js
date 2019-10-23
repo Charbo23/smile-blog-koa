@@ -12,6 +12,7 @@ class UpLoader {
   constructor(prefix) {
     this.prefix = prefix || ''
     const { ufile: ufileConfig } = global.config;
+    console.log(envVars);
     this.ufile = new UFile(ufileConfig||envVars);
   }
   async upload(files, file_id) {
