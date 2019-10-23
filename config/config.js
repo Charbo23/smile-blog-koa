@@ -2,10 +2,10 @@ module.exports = {
   environment: 'dev',
   database: {
     dbName: 'smile_blog',
-    host: process.env.NODE_ENV === 'production' || process.env.DATABASE === 'remote' ? '47.100.162.132' : 'localhost',
+    host: process.env.NODE_ENV === 'production' || process.env.DATABASE === 'remote' ? process.env.DATABASE_HOST : 'localhost',
     port: 3306,
-    user: 'root',
-    password: '123456',
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
     logging: false,
     timezone: '+08:00'
   },
@@ -30,11 +30,5 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
-  ufile: {
-    publicKey: "uHBkkj_l7DR_XaZVsTDjl_aBVWur5i8vD3rzAp9V",
-    privateKey: "i7ESIZ7AXtYaHhCRT-s7ik2rj-MMxJSs1XUE3Pit2-IUzgH5PpEzb4c3hRDA5-vm",
-    domain: ".hk.ufileos.com",
-    bucket: "charbo",
-    protocol: "https"
-  }
+
 }
