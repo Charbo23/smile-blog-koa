@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@charbo/ufile-node-sdk@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@charbo/ufile-node-sdk/-/ufile-node-sdk-1.1.3.tgz#1fdfc9390e4946f82e8ccdcb41a1bb6eb8a09b81"
-  integrity sha512-fFwgUcuXLHawZCv/uew9IgqVVy03Z/mkmog2U/p8egD3JOWpJu/Q93/uP2gyKfZq6Mg+qVjylvE6XL0WsLp/eA==
+"@charbo/ufile-node-sdk@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@charbo/ufile-node-sdk/-/ufile-node-sdk-1.2.1.tgz#b185e82d840f9704d87139022c5218a31dc93d6c"
+  integrity sha512-rwqRJvtdsYOidVeiv9QSt51B92jwAVzq8Hq/cxJriRGs0erxQ1AzUfF5sQ1RK2YZJXbi4GdPMIaJXgILHk8UFQ==
   dependencies:
     chalk "^2.4.2"
     colors-console "^1.0.3"
