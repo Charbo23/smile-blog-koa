@@ -30,5 +30,11 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
-
+  ufile: {
+    publicKey: process.env.PUBLIC_KEY,
+    privateKey: process.env.PRIVATE_KEY,
+    domain: process.env.DOMAIN,
+    bucket: process.env.BUCKET,
+    protocol: process.env.PROTOCOL
+  }
 }

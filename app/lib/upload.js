@@ -1,19 +1,11 @@
 const fs = require('fs');
 const UFile = require('@charbo/ufile-node-sdk');
-const { PUBLIC_KEY, PRIVATE_KEY, DOMAIN, BUCKET, PROTOCOL } = process.env;
-const envVars = {
-  publicKey: PUBLIC_KEY,
-  privateKey: PRIVATE_KEY,
-  domain: DOMAIN,
-  bucket: BUCKET,
-  protocel: PROTOCOL
-};
+
 class UpLoader {
   constructor(prefix) {
     this.prefix = prefix || ''
     const { ufile: ufileConfig } = global.config;
-    console.log(envVars);
-    this.ufile = new UFile(ufileConfig||envVars);
+    this.ufile = new UFile(ufileConfig);
   }
   async upload(files, file_id) {
     let promises = [];

@@ -1,6 +1,12 @@
 const { Sequelize, Model } = require('sequelize')
 const { unset, clone, isArray } = require('lodash')
+const fs = require('fs');
 
+const devConfigPath = `${process.cwd()}/config/config-dev.js`;
+const prodConfigPath = `${process.cwd()}/config/config.js`;
+const configPath = process.env.NODE_ENV === 'development' && fs.existsSync(devConfigPath) ?
+  devConfigPath : prodConfigPath;
+  
 const {
   dbName,
   host,
@@ -9,7 +15,7 @@ const {
   password,
   logging,
   timezone
-} = require('../config/config').database
+} = require(configPath).database
 
 console.log(`connecting database at ${host}:${port}`);
 
