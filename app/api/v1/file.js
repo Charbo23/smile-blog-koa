@@ -1,8 +1,8 @@
 const Router = require('koa-router')
 const fs = require('fs');
-const shortid=require('shortid');
+const shortid = require('shortid');
 
-const { UpLoader } = require('../../lib/upload')
+const { ufileUpLoader, qiniuUploader } = require('../../lib/upload')
 const { Auth } = require('../../../middleware/auth')
 const multiparty = require('koa2-multiparty');
 
@@ -10,24 +10,24 @@ const fileApi = new Router({
   prefix: '/v1/file'
 })
 
-// fileApi.post('/', new Auth().m, async (ctx) => {
-//   const files = await ctx.multipart()
-//   const upLoader = new UpLoader(`blog/`)
-//   const arr = await upLoader.upload(files)
-//   // 此处将返回Url数组，因为有await关键字，相当于调用then
-//   ctx.body = arr
-// })
-
-fileApi.post('/', multiparty(), async (ctx) => {
-  const files = ctx.req.files;
-  const upLoader = new UpLoader('smile-blog');
-
-  // await renameFile(files)
-  const arr = await upLoader.upload(files, ctx.req.body.file_id);
-  // console.log(arr);
+fileApi.post('/', new Auth().m, async (ctx) => {
+  const files = await ctx.multipart()
+  const upLoader = new qiniuUploader({ prefix: 'smile-blog', unique: true })
+  const arr = await upLoader.upload(files)
   // 此处将返回Url数组，因为有await关键字，相当于调用then
-  ctx.body = arr;
+  // console.log(arr);
+  ctx.body = arr
 })
+
+// fileApi.post('/', multiparty(), async (ctx) => {
+//   const files = ctx.req.files;
+//   const upLoader = new ufileUpLoader('smile-blog');
+//   // await renameFile(files)
+//   const arr = await upLoader.upload(files, ctx.req.body.file_id);
+//   // console.log(arr);
+//   // 此处将返回Url数组，因为有await关键字，相当于调用then
+//   ctx.body = arr;
+// })
 const renameFile = (files) => {
   let renamePromises = []
   try {

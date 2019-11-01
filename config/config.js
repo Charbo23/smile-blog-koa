@@ -30,6 +30,12 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
+  qiniu: {
+    accessKey: process.env.ACCESS_KEY,
+    secretKey: process.env.SECRECT_KEY,
+    bucket: process.env.BUCKET,
+    siteDomain: process.env.SITE_DOMAIN
+  },
   ufile: {
     publicKey: process.env.PUBLIC_KEY,
     privateKey: process.env.PRIVATE_KEY,

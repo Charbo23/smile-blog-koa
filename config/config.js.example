@@ -30,6 +30,12 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
+  qiniu: {
+    accessKey: '',
+    secretKey: '',
+    bucket: '',
+    siteDomain: '存储域名'
+  },
   ufile: {
     publicKey: "UCloud公钥",
     privateKey: "UCloud私钥",
