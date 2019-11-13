@@ -1,6 +1,7 @@
 const fs = require('fs');
 const UFile = require('@charbo/ufile-node-sdk');
 const qiniu = require('qiniu');
+const chalk = require('chalk');
 
 
 class ufileUpLoader {
@@ -74,7 +75,7 @@ class qiniuUploader {
       const formUploader = new qiniu.form_up.FormUploader(config)
       const putExtra = new qiniu.form_up.PutExtra()
       const readableStream = file
-
+      console.log(chalk.blue('INFO'), ('Uploading...'));
       const promise = new Promise((resolve, reject) => {
         formUploader.putStream(uploadToken, key, readableStream, putExtra, (respErr, respBody, respInfo) => {
           if (respErr) {
@@ -84,6 +85,7 @@ class qiniuUploader {
             siteDomain = siteDomain.endsWith('/') ? siteDomain : siteDomain + '/';
             const url = siteDomain + respBody.key
             resolve(url)
+            console.log(chalk.green('SUCCESS'), ('Upload Complete\n'));
           } else {
             // 614 文件已存在
             reject(respInfo)
