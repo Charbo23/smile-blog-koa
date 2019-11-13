@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const fs = require('fs');
-const shortid = require('shortid');
 
+const {uuid} = require('../../lib/helper');
 const { ufileUpLoader, qiniuUploader } = require('../../lib/upload')
 const { Auth } = require('../../../middleware/auth')
 const multiparty = require('koa2-multiparty');
@@ -35,8 +35,8 @@ const renameFile = (files) => {
       const file = files[key];
       //重命名文件为源文件名
       fileNameArr = file.originalFilename.split('.');
-      const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${fileNameArr[0]}_${shortid.generate()}.${fileNameArr[1]}`;
-      // const filePath = `./temp/${fileNameArr[0]}_${shortid.generate()}.${fileNameArr[1]}`;
+      const filePath = `${file.path.substring(0, file.path.lastIndexOf('\\'))}\\${fileNameArr[0]}_${uuid()}.${fileNameArr[1]}`;
+      // const filePath = `./temp/${fileNameArr[0]}_${uuid()}.${fileNameArr[1]}`;
       // console.log(file);
       const readStream = fs.createReadStream(file.path);
       const writeStream = fs.createWriteStream(filePath);
