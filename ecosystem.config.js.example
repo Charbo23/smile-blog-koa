@@ -1,7 +1,7 @@
 // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
 module.exports = {
   apps: [{
-    name: 'API',
+    name: 'koa',
     script: 'app.js',
     instances: 1,
     autorestart: true,
