@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "dev:inspect": "cross-env NODE_ENV=development nodemon --inspect-brk",
     "dev:remote": "cross-env NODE_ENV=development DATABASE=remote nodemon",
-    "push": "git push heroku master"
+    "deploy": "pm2 start ecosystem.config.js --env production"
   },
   "repository": {
     "type": "git",

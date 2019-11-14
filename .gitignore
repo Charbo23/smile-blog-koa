@@ -22,3 +22,4 @@ yarn-error.log*
 
 /config/config-dev.js
 ufile-config.json
+ecosystem.config.js

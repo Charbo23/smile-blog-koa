@@ -31,16 +31,16 @@ module.exports = {
     // include:[]
   },
   qiniu: {
-    accessKey: process.env.ACCESS_KEY,
-    secretKey: process.env.SECRECT_KEY,
-    bucket: process.env.BUCKET,
-    siteDomain: process.env.SITE_DOMAIN
+    accessKey: process.env.QINIU_ACCESS_KEY,
+    secretKey: process.env.QINIU_SECRECT_KEY,
+    bucket: process.env.QINIU_BUCKET,
+    siteDomain: process.env.QINIU_SITE_DOMAIN
   },
   ufile: {
-    publicKey: process.env.PUBLIC_KEY,
-    privateKey: process.env.PRIVATE_KEY,
-    domain: process.env.DOMAIN,
-    bucket: process.env.BUCKET,
-    protocol: process.env.PROTOCOL
+    publicKey: process.env.UFILE_PUBLIC_KEY,
+    privateKey: process.env.UFILE_PRIVATE_KEY,
+    domain: process.env.UFILE_DOMAIN,
+    bucket: process.env.UFILE_BUCKET,
+    protocol: process.env.UFILE_PROTOCOL
   }
 }
