@@ -30,6 +30,7 @@ module.exports = {
     exclude: []                   // 禁止上传格式
     // include:[]
   },
+  storeVendor:'qiniu',
   qiniu: {
     accessKey: process.env.QINIU_ACCESS_KEY,
     secretKey: process.env.QINIU_SECRECT_KEY,
@@ -41,6 +42,7 @@ module.exports = {
     privateKey: process.env.UFILE_PRIVATE_KEY,
     domain: process.env.UFILE_DOMAIN,
     bucket: process.env.UFILE_BUCKET,
-    protocol: process.env.UFILE_PROTOCOL
+    protocol: process.env.UFILE_PROTOCOL,
+    cdnDomain: process.env.UFILE_CDN_DOMAIN
   }
 }

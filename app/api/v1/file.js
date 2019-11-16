@@ -1,33 +1,46 @@
 const Router = require('koa-router')
 const fs = require('fs');
 
-const {uuid} = require('../../lib/helper');
+const { uuid, loadConfig } = require('../../lib/helper');
 const { ufileUpLoader, qiniuUploader } = require('../../lib/upload')
 const { Auth } = require('../../../middleware/auth')
 const multiparty = require('koa2-multiparty');
 
+const getFileUploader = (storeVendor,storeConfig) => {
+  let upLoader;
+  switch (storeVendor) {
+    case 'ufile':
+      upLoader = new ufileUpLoader(storeConfig);
+      break;
+    case 'qiniu':
+      upLoader = new qiniuUploader(storeConfig)
+      break;
+    default:
+      upLoader = new qiniuUploader(storeConfig)
+  }
+  return upLoader;
+}
+
+const { storeVendor } = loadConfig();
+console.log(`files will be uploaded to ${storeVendor}`);
+
+const storeConfig={
+  prefix:'cbsmile/avatar',
+  unique:true
+}
 const fileApi = new Router({
   prefix: '/v1/file'
-})
+});
 
-fileApi.post('/', new Auth().m, async (ctx) => {
-  const files = await ctx.multipart()
-  const upLoader = new qiniuUploader({ prefix: 'smile-blog', unique: true })
-  const arr = await upLoader.upload(files)
-  // 此处将返回Url数组，因为有await关键字，相当于调用then
+fileApi.post('/', storeVendor === 'ufile' ? multiparty() : new Auth().m, async (ctx) => {
+  const files = storeVendor === 'ufile' ? ctx.req.files : await ctx.multipart();
+  const upLoader = getFileUploader(storeVendor,storeConfig);
+  const arr = await upLoader.upload(files);
   // console.log(arr);
-  ctx.body = arr
+  // 此处将返回Url数组，因为有await关键字，相当于调用then
+  ctx.body = arr;
 })
 
-// fileApi.post('/', multiparty(), async (ctx) => {
-//   const files = ctx.req.files;
-//   const upLoader = new ufileUpLoader('smile-blog');
-//   // await renameFile(files)
-//   const arr = await upLoader.upload(files, ctx.req.body.file_id);
-//   // console.log(arr);
-//   // 此处将返回Url数组，因为有await关键字，相当于调用then
-//   ctx.body = arr;
-// })
 const renameFile = (files) => {
   let renamePromises = []
   try {

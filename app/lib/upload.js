@@ -5,12 +5,13 @@ const chalk = require('chalk');
 
 
 class ufileUpLoader {
-  constructor(prefix) {
+  constructor({ prefix, unique = true }) {
     this.prefix = prefix || ''
     const { ufile: ufileConfig } = global.config;
     this.ufile = new UFile(ufileConfig);
+    this.unique = !!unique ? parseInt(Date.now() / 1000) : unique;
   }
-  async upload(files, file_id) {
+  async upload(files) {
     let promises = [];
     try {
       Object.keys(files).forEach((key) => {
@@ -18,7 +19,7 @@ class ufileUpLoader {
         const filePath = file.path;
         const fileRename = file.originalFilename;
         const promise = new Promise((resolve, reject) => {
-          this.ufile.putFile({ filePath, prefix: this.prefix, fileRename, unique: parseInt(Date.now() / 1000) })
+          this.ufile.putFile({ filePath, prefix: this.prefix, fileRename, unique: this.unique })
             .then(({ url }) => {
               resolve(url);
               deleteFile(filePath);
@@ -39,7 +40,7 @@ class ufileUpLoader {
 }
 
 class qiniuUploader {
-  constructor({ prefix = '', unique = false }) {
+  constructor({ prefix = '', unique = true }) {
     this.prefix = !prefix || prefix.endsWith('/') ? prefix : prefix + '/';
     this.unique = unique;
   }
@@ -69,7 +70,7 @@ class qiniuUploader {
 
       // ReadableStream 对象的上传
       const config = new qiniu.conf.Config()
-      // config.zone = qiniu.zone.Zone_as0
+      // config.zone = qiniu.zone.Zone_z0
       config.useHttpsDomain = true
 
       const formUploader = new qiniu.form_up.FormUploader(config)

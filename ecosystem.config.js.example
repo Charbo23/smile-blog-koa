@@ -5,7 +5,7 @@ module.exports = {
     script: 'app.js',
     instances: 1,
     autorestart: true,
-    watch: true,
+    watch: false,
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development',
@@ -17,14 +17,15 @@ module.exports = {
       DATABASE_PASSWORD: "",
       DATABASE_USER: "",
       QINIU_ACCESS_KEY: "",
-      QINIU_BUCKET: "",
       QINIU_SECRECT_KEY: "",
+      QINIU_BUCKET: "",
       QINIU_SITE_DOMAIN: "",
       UFILE_BUCKET: "",
       UFILE_DOMAIN: "",
       UFILE_PRIVATE_KEY: "",
       UFILE_PROTOCOL: "",
-      UFILE_PUBLIC_KEY: ""
+      UFILE_PUBLIC_KEY: "",
+      UFILE_CDN_DOMAIN: ""
     }
   }],
 };
