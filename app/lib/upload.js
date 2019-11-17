@@ -4,29 +4,28 @@ const qiniu = require('qiniu');
 const chalk = require('chalk');
 
 
-class ufileUpLoader {
-  constructor({ prefix, unique = true }) {
-    this.prefix = prefix || ''
-    const { ufile: ufileConfig } = global.config;
-    this.ufile = new UFile(ufileConfig);
-    this.unique = !!unique ? parseInt(Date.now() / 1000) : unique;
+class ufileUploader {
+  constructor(config = global.config.ufile) {
+    this.ufile = new UFile(config);
   }
-  async upload(files) {
+  async upload(files, { prefix = '', unique = true, deleteAfter = true }) {
+    unique = !!unique ? parseInt(Date.now() / 1000) : unique;
     let promises = [];
+
     try {
       Object.keys(files).forEach((key) => {
         const file = files[key];
         const filePath = file.path;
         const fileRename = file.originalFilename;
         const promise = new Promise((resolve, reject) => {
-          this.ufile.putFile({ filePath, prefix: this.prefix, fileRename, unique: this.unique })
+          this.ufile.putFile({ filePath, prefix, fileRename, unique })
             .then(({ url }) => {
               resolve(url);
-              deleteFile(filePath);
+              !!deleteAfter && deleteFile(filePath);
             })
             .catch((error) => {
               reject(error);
-              deleteFile(filePath);
+              !!deleteAfter && deleteFile(filePath);
             })
         })
         promises.push(promise)
@@ -40,27 +39,28 @@ class ufileUpLoader {
 }
 
 class qiniuUploader {
-  constructor({ prefix = '', unique = true }) {
-    this.prefix = !prefix || prefix.endsWith('/') ? prefix : prefix + '/';
-    this.unique = unique;
+  constructor(config = global.config.qiniu) {
+    this.config = config;
   }
-  async upload(files) {
+
+  
+  async upload(files, { prefix = '', unique = true }) {
+    prefix = !prefix || prefix.endsWith('/') ? prefix : prefix + '/';
+
     // 上传凭证
-    const accessKey = global.config.qiniu.accessKey
-    const secretKey = global.config.qiniu.secretKey
-    const bucket = global.config.qiniu.bucket
-    let siteDomain = global.config.qiniu.siteDomain
+    const { accessKey, secretKey, bucket, siteDomain } = this.config;
+    const siteUrl = siteDomain.endsWith('/') ? siteDomain : siteDomain + '/';
 
     let promises = []
 
     for (const file of files) {
       let filename = file.filename;
-      if (this.unique) {
+      if (!!unique) {
         const id = parseInt(Date.now() / 1000);
         const filenameArr = filename.split('.');
         filename = `${filenameArr[0]}_${id}.${filenameArr[filenameArr.length - 1]}`;
       }
-      const key = this.prefix + filename;
+      const key = prefix + filename;
       // 文件覆盖
       const putPolicy = new qiniu.rs.PutPolicy({
         scope: `${bucket}:${key}`
@@ -71,7 +71,6 @@ class qiniuUploader {
       // ReadableStream 对象的上传
       const config = new qiniu.conf.Config()
       // config.zone = qiniu.zone.Zone_z0
-      config.useHttpsDomain = true
 
       const formUploader = new qiniu.form_up.FormUploader(config)
       const putExtra = new qiniu.form_up.PutExtra()
@@ -80,11 +79,11 @@ class qiniuUploader {
       const promise = new Promise((resolve, reject) => {
         formUploader.putStream(uploadToken, key, readableStream, putExtra, (respErr, respBody, respInfo) => {
           if (respErr) {
-            reject(respErr)
+            reject(respErr);
+            return;
           }
           if (respInfo.statusCode === 200) {
-            siteDomain = siteDomain.endsWith('/') ? siteDomain : siteDomain + '/';
-            const url = siteDomain + respBody.key
+            const url = siteUrl + respBody.key
             resolve(url)
             console.log(chalk.green('SUCCESS'), ('Upload Complete\n'));
           } else {
@@ -105,14 +104,12 @@ class qiniuUploader {
 
 const deleteFile = (path) => {
   fs.unlink(path, (err) => {
-    if (err) {
+    if (!!err) {
       console.log(err);
-    } else {
-
     }
   });
 }
 module.exports = {
-  ufileUpLoader,
+  ufileUploader,
   qiniuUploader
 }

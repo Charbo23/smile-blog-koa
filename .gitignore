@@ -20,6 +20,8 @@ yarn-error.log*
 *.sln
 *.sw?
 
+!.gitkeep
 /config/config-dev.js
 ufile-config.json
 ecosystem.config.js
+/test/img

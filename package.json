@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "dev:inspect": "cross-env NODE_ENV=development nodemon --inspect-brk",
     "dev:remote": "cross-env NODE_ENV=development DATABASE=remote nodemon",
-    "deploy": "pm2 start ecosystem.config.js --env production"
+    "deploy": "pm2 start ecosystem.config.js --env production",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
   },
   "homepage": "https://github.com/Charbo23/smile-blog-koa",
   "dependencies": {
-    "@charbo/ufile-node-sdk": "^1.3.0",
+    "@charbo/ufile-node-sdk": "^1.3.1",
     "bcryptjs": "^2.4.3",
     "chalk": "^3.0.0",
     "co-busboy": "^1.4.0",
@@ -55,5 +56,9 @@
   "engines": {
     "node": "10.x",
     "yarn": "1.x"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2",
+    "should": "^13.2.3"
   }
 }
